@@ -1,104 +1,108 @@
-import React, { useState } from 'react';
-import { CUSTOM_DESIGN_FLOWERS, JEWELRY_TYPES, METAL_COLORS } from '../constants';
+import React from 'react';
+import { ICONS, INSPIRATION_GALLERY } from '../constants';
+
+const Step = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
+    <div className="text-center">
+        <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-[#F5EBE0] text-[#A67B68]">
+            {icon}
+        </div>
+        <h3 className="mb-2 text-xl font-bold sowina-font-serif">{title}</h3>
+        <p className="text-gray-600 sowina-font-sans">{description}</p>
+    </div>
+);
+
 
 const CustomDesignPage: React.FC = () => {
-    const [step, setStep] = useState(1);
-    const [selections, setSelections] = useState({
-        type: null as typeof JEWELRY_TYPES[0] | null,
-        flower: null as typeof CUSTOM_DESIGN_FLOWERS[0] | null,
-        metal: null as typeof METAL_COLORS[0] | null,
-    });
-
-    const handleSelect = (category: 'type' | 'flower' | 'metal', value: any) => {
-        setSelections(prev => ({ ...prev, [category]: value }));
-        if (step < 3) {
-            setTimeout(() => setStep(s => s + 1), 300);
-        }
-    };
-
   return (
     <div className="fade-in">
         <section 
             className="relative bg-cover bg-center text-white text-center py-32 px-6" 
-            style={{backgroundImage: "url('https://picsum.photos/seed/custom-hero/1600/500')"}}
+            style={{backgroundImage: "url('https://picsum.photos/seed/atelier-hero/1600/600')"}}
         >
             <div className="absolute inset-0 bg-black opacity-40"></div>
             <div className="relative z-10">
-            <h1 className="text-4xl md:text-5xl sowina-font-serif mb-4">SOWINA Design Studio</h1>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto sowina-font-sans">รังสรรค์เครื่องประดับในฝัน...ให้เป็นจริง</p>
+                <h1 className="text-4xl md:text-5xl sowina-font-serif mb-4">The SOWINA Atelier</h1>
+                <p className="text-lg md:text-xl max-w-3xl mx-auto sowina-font-sans">เรื่องราวของคุณ...คือแรงบันดาลใจที่ยิ่งใหญ่ที่สุดของเรา</p>
+                 <p className="text-md md:text-lg max-w-3xl mx-auto sowina-font-sans mt-4">ที่ SOWINA Atelier เราไม่ได้แค่สร้างเครื่องประดับ แต่เรารังสรรค์สัญลักษณ์แทนความทรงจำ ความฝัน และความปรารถนา...เพียงชิ้นเดียวเพื่อคุณ</p>
             </div>
         </section>
 
         <section className="py-20 bg-white">
+            <div className="container px-6 mx-auto">
+                <h2 className="text-3xl font-bold text-center sowina-font-serif mb-16 text-[#A67B68]">ขั้นตอนการร่วมสร้างสรรค์</h2>
+                <div className="grid gap-12 row-gap-8 lg:grid-cols-4">
+                    <Step
+                        icon={ICONS.chat}
+                        title="1. Share Your Story"
+                        description="ทุกอย่างเริ่มต้นจากบทสนทนา เล่าเรื่องราว, แรงบันดาลใจ, หรือความต้องการพิเศษของคุณให้เราฟัง"
+                    />
+                    <Step
+                        icon={ICONS.pencil}
+                        title="2. The Design Sketch"
+                        description="ทีมงานของเราจะนำเรื่องราวของคุณมาออกแบบเป็นภาพสเก็ตช์ พร้อมให้คำปรึกษาเพื่อผลงานที่สมบูรณ์แบบ"
+                    />
+                     <Step
+                        icon={ICONS.hand}
+                        title="3. The Creation"
+                        description="เมื่อคุณอนุมัติแบบแล้ว ช่างฝีมือของเราจะเริ่มกระบวนการรังสรรค์ชิ้นงานด้วยความประณีตและหัวใจ"
+                    />
+                    <Step
+                        icon={ICONS.gift}
+                        title="4. A Piece to Cherish"
+                        description="ผลงานชิ้นเดียวในโลกจะถูกจัดส่งถึงมือคุณในแพ็กเกจจิ้งสุดพิเศษ พร้อมเป็นส่วนหนึ่งในเรื่องราวของคุณ"
+                    />
+                </div>
+            </div>
+        </section>
+        
+        <section className="py-20 bg-[#FEFBFB]">
             <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    {/* Designer Steps */}
-                    <div className="sowina-font-sans">
-                        {/* Step 1 */}
-                        <div className={`transition-opacity duration-500 ${step >= 1 ? 'opacity-100' : 'opacity-30'}`}>
-                            <h2 className="text-2xl sowina-font-serif mb-4 text-[#A67B68]">ขั้นตอนที่ 1: เลือกรูปแบบเครื่องประดับ</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                                {JEWELRY_TYPES.map(type => (
-                                    <div key={type.name} onClick={() => handleSelect('type', type)} className={`border-2 p-4 rounded-lg cursor-pointer transition-all ${selections.type?.name === type.name ? 'border-[#A67B68] ring-2 ring-[#A67B68]' : 'border-gray-200'}`}>
-                                        <img src={type.image} alt={type.name} className="w-full h-32 object-cover rounded-md mb-2"/>
-                                        <h3 className="font-semibold text-center">{type.name}</h3>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                 <h2 className="text-3xl font-bold text-center sowina-font-serif mb-12 text-[#A67B68]">แกลเลอรีแห่งแรงบันดาลใจ</h2>
+                 <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">ตัวอย่างผลงานจากเรื่องราวของลูกค้าท่านอื่น</p>
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {INSPIRATION_GALLERY.map((item, index) => (
+                         <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden group">
+                             <img src={item.image} alt={item.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"/>
+                             <div className="p-6">
+                                 <h3 className="font-bold text-xl sowina-font-serif mb-2">{item.title}</h3>
+                                 <p className="text-gray-600 sowina-font-sans">{item.description}</p>
+                             </div>
+                         </div>
+                     ))}
+                 </div>
+            </div>
+        </section>
 
-                        {/* Step 2 */}
-                        <div className={`mt-8 transition-opacity duration-500 ${step >= 2 ? 'opacity-100' : 'opacity-30'}`}>
-                             <h2 className="text-2xl sowina-font-serif mb-4 text-[#A67B68]">ขั้นตอนที่ 2: เลือกดอกไม้และความหมาย</h2>
-                             <div className="grid grid-cols-3 gap-4">
-                                {CUSTOM_DESIGN_FLOWERS.map(flower => (
-                                    <div key={flower.name} onClick={() => step >= 2 && handleSelect('flower', flower)} className={`border-2 p-2 rounded-lg transition-all ${step < 2 ? 'cursor-not-allowed' : 'cursor-pointer'} ${selections.flower?.name === flower.name ? 'border-[#A67B68] ring-2 ring-[#A67B68]' : 'border-gray-200'}`}>
-                                        <img src={flower.image} alt={flower.name} className="w-full h-24 object-cover rounded-md mb-2"/>
-                                        <h3 className="font-semibold text-sm text-center">{flower.name}</h3>
-                                        <p className="text-xs text-gray-500 text-center">({flower.belief})</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Step 3 */}
-                        <div className={`mt-8 transition-opacity duration-500 ${step >= 3 ? 'opacity-100' : 'opacity-30'}`}>
-                             <h2 className="text-2xl sowina-font-serif mb-4 text-[#A67B68]">ขั้นตอนที่ 3: เลือกสีโลหะ</h2>
-                             <div className="flex space-x-4">
-                                {METAL_COLORS.map(metal => (
-                                    <div key={metal.name} onClick={() => step >= 3 && handleSelect('metal', metal)} className={`flex-1 p-4 rounded-lg transition-all text-center ${step < 3 ? 'cursor-not-allowed' : 'cursor-pointer'} ${selections.metal?.name === metal.name ? 'ring-2 ring-offset-2 ring-[#A67B68]' : ''}`} style={{backgroundColor: metal.color}}>
-                                        <span className="font-semibold mix-blend-difference text-white">{metal.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+        <section className="py-20 bg-white">
+            <div className="container mx-auto px-6 max-w-4xl text-center">
+                 <h2 className="text-3xl font-bold sowina-font-serif mb-4">เริ่มต้นการเดินทางของคุณได้ง่ายๆ</h2>
+                 <p className="text-gray-600 max-w-2xl mx-auto mb-8">ไม่ว่าคุณจะมีไอเดียที่ชัดเจน หรือแค่มีความรู้สึกบางอย่างที่อยากถ่ายทอด เราพร้อมที่จะรับฟังและร่วมสร้างสรรค์ไปกับคุณ</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10 text-left">
+                    <div className="flex items-start space-x-3">
+                        <div className="text-[#A67B68] pt-1">{ICONS.seed}</div>
+                        <p><strong>สร้างสรรค์จากดอกไม้ที่มีความหมายพิเศษ</strong> (เช่น ดอกไม้จากช่อปริญญา, ช่อแต่งงาน)</p>
                     </div>
-
-                    {/* Preview */}
-                    <div className="sticky top-24 h-fit bg-[#FEFBFB] p-8 rounded-lg shadow-lg text-center">
-                        <h2 className="text-2xl sowina-font-serif mb-6">ภาพผลงานของคุณ</h2>
-                        <div className="w-64 h-64 mx-auto bg-gray-200 rounded-lg flex items-center justify-center relative overflow-hidden">
-                            {selections.type && <img src={selections.type.image} alt="Jewelry type" className="absolute inset-0 w-full h-full object-cover z-0"/>}
-                            {selections.flower && <img src={selections.flower.image} alt="Flower" className="w-1/2 h-1/2 object-contain z-10 transition-transform duration-300 transform scale-100"/>}
-                             {selections.metal && <div className="absolute inset-0 z-20 mix-blend-hue" style={{ backgroundColor: selections.metal.color, opacity: 0.5 }}></div>}
-                             {!selections.type && <p className="text-gray-500 z-30">เริ่มต้นออกแบบได้เลย!</p>}
-                        </div>
-                        <div className="mt-6 text-left">
-                            <h3 className="font-semibold text-lg mb-2">สรุปการออกแบบ:</h3>
-                            <p><strong>รูปแบบ:</strong> {selections.type?.name || 'ยังไม่ได้เลือก'}</p>
-                            <p><strong>ดอกไม้:</strong> {selections.flower?.name || 'ยังไม่ได้เลือก'}</p>
-                            <p><strong>สีโลหะ:</strong> {selections.metal?.name || 'ยังไม่ได้เลือก'}</p>
-                        </div>
-                         <button 
-                            disabled={!selections.type || !selections.flower || !selections.metal}
-                            onClick={() => alert('ขอบคุณค่ะ! ทีมงานจะติดต่อกลับเพื่อประเมินราคาและการผลิตโดยเร็วที่สุด')}
-                            className="bg-[#A67B68] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all text-lg font-semibold mt-8 w-full disabled:bg-gray-300"
-                        >
-                           ส่งแบบประเมินราคา
-                        </button>
-                        <p className="text-xs text-gray-500 mt-2">ราคาเริ่มต้น 590 บาท</p>
+                     <div className="flex items-start space-x-3">
+                        <div className="text-[#A67B68] pt-1">{ICONS.star}</div>
+                        <p><strong>ออกแบบตามสีนำโชค</strong> หรือดอกไม้ประจำราศีเกิด</p>
+                    </div>
+                     <div className="flex items-start space-x-3">
+                        <div className="text-[#A67B68] pt-1">{ICONS.gift}</div>
+                        <p><strong>ของขวัญสำหรับคนพิเศษ</strong>ในโอกาสสำคัญ (วันเกิด, วันครบรอบ)</p>
+                    </div>
+                     <div className="flex items-start space-x-3">
+                        <div className="text-[#A67B68] pt-1">{ICONS.heart}</div>
+                        <p><strong>เครื่องประดับสำหรับทีม</strong> (เพื่อนเจ้าสาว, ของขวัญองค์กร)</p>
                     </div>
                 </div>
+
+                 <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); alert('กำลังนำคุณไปยัง LINE Official Account เพื่อพูดคุยกับดีไซเนอร์...'); }}
+                    className="inline-block bg-[#A67B68] text-white px-10 py-4 rounded-full hover:bg-opacity-90 transition-all text-lg font-semibold transform hover:scale-105"
+                >
+                   ปรึกษาดีไซเนอร์ของเรา (ไม่มีค่าใช้จ่าย)
+                </a>
             </div>
         </section>
     </div>

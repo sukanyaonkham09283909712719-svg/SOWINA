@@ -7,6 +7,9 @@ import ProductCard from './ProductCard';
 interface AIStyleAdvisorModalProps {
   onClose: () => void;
   products: Product[];
+  onAddToCart: (product: Product, quantity?: number) => void;
+  onToggleWishlist: (product: Product) => void;
+  wishlist: Product[];
 }
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
@@ -16,7 +19,7 @@ interface Recommendation {
   reasoning: string;
 }
 
-const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, products }) => {
+const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, products, onAddToCart, onToggleWishlist, wishlist }) => {
   const [status, setStatus] = useState<Status>('idle');
   const [occasion, setOccasion] = useState('');
   const [image, setImage] = useState<{ file: File | null; base64: string | null }>({ file: null, base64: null });
@@ -125,7 +128,7 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
       case 'loading':
         return (
           <div className="text-center p-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#A67B68] mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C08081] mx-auto"></div>
             <h3 className="text-xl font-semibold mt-6">AI กำลังเลือกสไตล์ให้คุณ...</h3>
             <p className="text-gray-500 mt-2">ผู้เชี่ยวชาญ AI ของเรากำลังวิเคราะห์ลุคของคุณเพื่อค้นหาชิ้นที่ใช่ที่สุด</p>
           </div>
@@ -137,9 +140,10 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
             <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
               {recommendations.map(({ product, reasoning }) => (
                 <div key={product.id}>
-                  <ProductCard product={product} />
+                  {/* FIX: The ProductCard component requires onAddToCart, onToggleWishlist, and wishlist props to function correctly. These are now passed down from the parent component. */}
+                  <ProductCard product={product} onAddToCart={onAddToCart} onToggleWishlist={onToggleWishlist} wishlist={wishlist} />
                   <p className="text-sm text-gray-600 mt-2 p-2 bg-stone-100 rounded-md">
-                    <span className="font-semibold text-[#A67B68]">สไตลิสต์โน้ต:</span> {reasoning}
+                    <span className="font-semibold text-[#C08081]">สไตลิสต์โน้ต:</span> {reasoning}
                   </p>
                 </div>
               ))}
@@ -147,7 +151,7 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
             <div className="text-center mt-8">
                 <button
                     onClick={resetState}
-                    className="bg-[#A67B68] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all text-lg font-semibold"
+                    className="bg-[#C08081] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all text-lg font-semibold"
                 >
                     ลองชุดอื่น
                 </button>
@@ -184,7 +188,7 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
                       </svg>
                     )}
                     <div className="flex text-sm text-gray-600">
-                      <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-[#A67B68] hover:text-[#BF927F] focus-within:outline-none">
+                      <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-[#C08081] hover:text-[#D3B1B1] focus-within:outline-none">
                         <span>{image.file ? 'เปลี่ยนรูปภาพ' : 'อัปโหลดไฟล์'}</span>
                         <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
                       </label>
@@ -202,7 +206,7 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
                   rows={2}
                   value={occasion}
                   onChange={(e) => setOccasion(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#BF927F] focus:ring focus:ring-[#EADFD5] focus:ring-opacity-50 p-2"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#C08081] focus:ring focus:ring-[#D3B1B1] focus:ring-opacity-50 p-2"
                   placeholder="เช่น ไปคาเฟ่, งานแต่งเพื่อน, ปาร์ตี้บริษัท..."
                 />
               </div>
@@ -212,7 +216,7 @@ const AIStyleAdvisorModal: React.FC<AIStyleAdvisorModalProps> = ({ onClose, prod
               <button
                 onClick={getRecommendations}
                 disabled={!image.file || !occasion}
-                className="w-full bg-[#A67B68] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed text-lg font-semibold"
+                className="w-full bg-[#C08081] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed text-lg font-semibold"
               >
                 รับคำแนะนำ
               </button>

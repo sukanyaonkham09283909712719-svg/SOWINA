@@ -6,11 +6,15 @@ export interface Product {
   description: string;
   price: string;
   image: string;
-  category: 'Necklace' | 'Bracelet' | 'Ring';
+  category: 'Necklace' | 'Bracelet' | 'Ring' | 'Hair Clip';
   belief: 'การงาน' | 'การเงิน' | 'ความรัก' | 'สุขภาพ' | 'ความสมดุล';
 }
 
-export type Page = 'Home' | 'Shop' | 'Workshop' | 'Our Story' | 'Custom Design';
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export type Page = 'Home' | 'Shop' | 'Our Story' | 'Custom Design' | 'Consultation';
 
 export interface BeliefCategory {
   key: string;
